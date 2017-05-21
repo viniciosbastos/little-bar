@@ -5,6 +5,8 @@
  */
 package implementations;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -16,8 +18,9 @@ public class Bar {
     int cadeiras;
     int empty;
     boolean full;
+    List<Semaphore> filaDeEspera;
     //private BarSemaphore semaforo;
-    Semaphore semaforo;
+//    Semaphore semaforo;
     Semaphore mutex;
 
     public Bar(int c) {
@@ -25,8 +28,9 @@ public class Bar {
         this.empty = c;
         this.full = false;
         //semaforo = new BarSemaphore(cadeiras);
-        semaforo = new Semaphore(c);
+  //      semaforo = new Semaphore(c);
         mutex = new Semaphore(1);
+        filaDeEspera = new ArrayList();
     }
 
     public void setCadeiras(int cadeiras) {
@@ -34,14 +38,18 @@ public class Bar {
     }
 
     public void sitDown() throws InterruptedException {
-        semaforo.acquire();
         mutex.acquire();
-        this.empty -= 1;
-        if (this.empty == 0) {
-            Log.log("cheio");
-            full = true;
-        }
-        mutex.release();
+        if (!full) {
+            this.empty -= 1;
+            if (this.empty == 0) {
+                full = true;
+                Log.log("cheio");
+            }
+            mutex.release();
+        } else {
+            mutex.release();
+            entrarFilaDeEspera();
+        }        
     }
 
     public void getUp() throws InterruptedException {
@@ -49,23 +57,35 @@ public class Bar {
         if (full) {
             this.empty += 1;
             if (this.empty == this.cadeiras) {
-                semaforo.release();
-                semaforo.release();
+                full = false;
                 Log.log("vazio");
+                if (!filaDeEspera.isEmpty()) {
+                    mutex.release();
+                    for (int i = 0; i < this.cadeiras; i++) {
+                        chamarFilaDeEspera();
+                    }
+                    return;
+                }
             }
+            mutex.release();
         } else {
             this.empty += 1;
+            if (this.empty > this.cadeiras)
+                this.empty = this.cadeiras;
+            mutex.release();
         }
-        mutex.release();
-//        if (full && this.empty == 0) {
-//            full = false;
-//            this.empty = this.cadeiras;
-//            semaforo.release();
-//            semaforo.release();
-//            Log.log("vazio");
-//        } else {
-//            this.empty += 1;
-//        }
-//        mutex.release();
+    }
+
+    private void entrarFilaDeEspera() throws InterruptedException {
+        Semaphore s = new Semaphore(0);
+        filaDeEspera.add(s);
+        s.acquire();
+    }
+    
+    private void chamarFilaDeEspera() {
+        if (!filaDeEspera.isEmpty()) {
+            Semaphore s = filaDeEspera.remove(0);
+            s.release();
+        }
     }
 }
