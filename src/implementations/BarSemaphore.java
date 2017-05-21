@@ -35,7 +35,9 @@ public class BarSemaphore extends Semaphore{
     @Override
     public void release() {
         this.empty++;
+        System.out.println(this.empty);
         if (full && this.empty == this.available) {
+            System.out.println("vazio");
             super.release(this.available);
             full = false;
         }

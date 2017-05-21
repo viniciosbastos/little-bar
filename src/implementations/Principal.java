@@ -25,10 +25,10 @@ public class Principal {
         // TODO code application logic here
         bar = new Bar(2);
         
-        PlayboyClient client1 = new PlayboyClient(10, 5, "Carlin");
-        NerdClient client2 = new NerdClient(5, 10, "Franciscleidson");
-        PlayboyClient client3 = new PlayboyClient(10, 5, "BoyMagia");
-        NerdClient client4 = new NerdClient(5, 10, "Tyrion");
+        PlayboyClient client1 = new PlayboyClient(1, 1, "A");
+        NerdClient client2 = new NerdClient(1,1, "B");
+        PlayboyClient client3 = new PlayboyClient(1, 1, "C");
+        NerdClient client4 = new NerdClient(1, 1, "D");
         
         client1.start();
         client2.start();

@@ -5,6 +5,7 @@
  */
 package interfaces;
 
+import implementations.Log;
 import implementations.Principal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,12 +35,12 @@ public class Client extends Thread implements BarClient{
     public void run() {
         while(true) {
             try {
-                System.out.println(nome + " está na fila do bar.");
+                Log.log(nome + " está na fila do bar.");
                 Principal.bar.sitDown();
-                System.out.println(nome + " sentou no bar.");
+                Log.log(nome + " sentou no bar.");
                 IrBar();
                 Principal.bar.getUp();
-                System.out.println(nome + " saiu do bar.");                
+                Log.log(nome + " saiu do bar.");                
                 IrCasa();
             } catch (InterruptedException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);

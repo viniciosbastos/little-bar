@@ -21,7 +21,7 @@ public class NerdClient extends Client{
 
     @Override
     public void IrBar() {
-        System.out.println(this.nome + " pediu um copo de leite ao garçom.");
+//        System.out.println(this.nome + " pediu um copo de leite ao garçom.");
         for (int i = 0; i < this.tempoBar; i++) {
             try {
                 Thread.sleep(1000);
@@ -33,7 +33,7 @@ public class NerdClient extends Client{
 
     @Override
     public void IrCasa() {
-        System.out.println(this.nome + " está jogando LoL.");
+//        System.out.println(this.nome + " está jogando LoL.");
         for (int i = 0; i < this.tempoCasa; i++) {
             try {
                 Thread.sleep(1000);

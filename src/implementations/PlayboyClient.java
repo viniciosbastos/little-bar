@@ -21,7 +21,7 @@ public class PlayboyClient extends Client{
 
     @Override
     public void IrBar() {        
-        System.out.println(this.nome + " está caçando as cocotinha.");
+//        System.out.println(this.nome + " está caçando as cocotinha.");
         for (int i = 0; i < this.tempoBar; i++) {
             try {
                 Thread.sleep(1000);
@@ -33,7 +33,7 @@ public class PlayboyClient extends Client{
 
     @Override
     public void IrCasa() {
-        System.out.println(this.nome + " esqueceu de comprar a camisinha");
+//        System.out.println(this.nome + " esqueceu de comprar a camisinha");
         for (int i = 0; i < this.tempoCasa; i++) {
             try {
                 Thread.sleep(1000);
